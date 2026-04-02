@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaStock SEO Optimizer</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Top Banner -->
+        <header class="top-banner">
+            <div class="logo-section">
+                <div class="logo-box italic">M</div>
+                <span class="logo-text">METASTOCK <span class="highlight">SEO</span></span>
+            </div>
+            <div class="header-actions">
+                <button class="btn-tutorial"><i data-lucide="play-circle"></i> Tutorial</button>
+            </div>
+        </header>
+
+        <div class="main-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2>Generation Controls</h2>
+                    <button id="open-api-modal" class="btn-icon"><i data-lucide="settings"></i> API Key</button>
+                </div>
+
+                <div class="controls-group">
+                    <div class="control-item">
+                        <label>Batch Size (Concurrent) <span id="batch-val">1x</span></label>
+                        <input type="range" id="batch-size" min="1" max="10" value="1">
+                    </div>
+                    <div class="control-item">
+                        <label>RPM (Requests Per Minute) <span id="rpm-val">15/min</span></label>
+                        <input type="range" id="rpm-limit" min="1" max="60" value="15">
+                    </div>
+                </div>
+
+                <div class="metadata-settings">
+                    <h3>Metadata Settings</h3>
+                    <div class="toggle-item">
+                        <span>Auto Rename Title</span>
+                        <input type="checkbox" id="auto-rename" checked>
+                    </div>
+                    <div class="toggle-item">
+                        <span>Apply 5-Star Rating</span>
+                        <input type="checkbox" id="apply-rating" checked>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="content">
+                <h2>Upload Files</h2>
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-icons">
+                        <i data-lucide="image" class="icon-img"></i>
+                        <i data-lucide="video" class="icon-vid"></i>
+                        <i data-lucide="file-code" class="icon-eps"></i>
+                    </div>
+                    <p>Drag & drop files here, or <label for="file-input">click to select</label></p>
+                    <input type="file" id="file-input" multiple hidden>
+                </div>
+
+                <div id="file-list" class="file-grid"></div>
+
+                <div class="action-bar">
+                    <button id="clear-files" class="btn-secondary"><i data-lucide="trash-2"></i> Clear</button>
+                    <button id="generate-btn" class="btn-primary"><i data-lucide="zap"></i> Generate</button>
+                    <button id="export-csv" class="btn-success"><i data-lucide="download"></i> Export CSV</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div id="api-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>API Key Management</h3>
+            <div class="api-inputs">
+                <input type="password" id="gemini-key" placeholder="Enter Gemini API Key">
+            </div>
+            <button id="save-keys" class="btn-primary">Save Configuration</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
