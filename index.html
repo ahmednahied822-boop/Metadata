@@ -3,92 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetaStock SEO Optimizer</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Lucide Icons -->
+    <title>MetaStock SEO Optimizer - Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div id="app">
-        <!-- Top Banner -->
-        <header class="top-banner">
-            <div class="logo-section">
-                <div class="logo-box italic">M</div>
-                <span class="logo-text">METASTOCK <span class="highlight">SEO</span></span>
-            </div>
-            <div class="header-actions">
-                <button class="btn-tutorial"><i data-lucide="play-circle"></i> Tutorial</button>
-            </div>
-        </header>
+<body class="bg-[#121212] text-[#e0e0e0] font-sans overflow-hidden h-screen flex flex-col">
 
-        <div class="main-container">
-            <!-- Sidebar -->
-            <aside class="sidebar">
-                <div class="sidebar-header">
-                    <h2>Generation Controls</h2>
-                    <button id="open-api-modal" class="btn-icon"><i data-lucide="settings"></i> API Key</button>
-                </div>
-
-                <div class="controls-group">
-                    <div class="control-item">
-                        <label>Batch Size (Concurrent) <span id="batch-val">1x</span></label>
-                        <input type="range" id="batch-size" min="1" max="10" value="1">
-                    </div>
-                    <div class="control-item">
-                        <label>RPM (Requests Per Minute) <span id="rpm-val">15/min</span></label>
-                        <input type="range" id="rpm-limit" min="1" max="60" value="15">
-                    </div>
-                </div>
-
-                <div class="metadata-settings">
-                    <h3>Metadata Settings</h3>
-                    <div class="toggle-item">
-                        <span>Auto Rename Title</span>
-                        <input type="checkbox" id="auto-rename" checked>
-                    </div>
-                    <div class="toggle-item">
-                        <span>Apply 5-Star Rating</span>
-                        <input type="checkbox" id="apply-rating" checked>
-                    </div>
-                </div>
-            </aside>
-
-            <!-- Main Content -->
-            <main class="content">
-                <h2>Upload Files</h2>
-                <div id="drop-zone" class="drop-zone">
-                    <div class="drop-icons">
-                        <i data-lucide="image" class="icon-img"></i>
-                        <i data-lucide="video" class="icon-vid"></i>
-                        <i data-lucide="file-code" class="icon-eps"></i>
-                    </div>
-                    <p>Drag & drop files here, or <label for="file-input">click to select</label></p>
-                    <input type="file" id="file-input" multiple hidden>
-                </div>
-
-                <div id="file-list" class="file-grid"></div>
-
-                <div class="action-bar">
-                    <button id="clear-files" class="btn-secondary"><i data-lucide="trash-2"></i> Clear</button>
-                    <button id="generate-btn" class="btn-primary"><i data-lucide="zap"></i> Generate</button>
-                    <button id="export-csv" class="btn-success"><i data-lucide="download"></i> Export CSV</button>
-                </div>
-            </main>
+    <!-- Top Header -->
+    <header class="bg-[#1a1a1a] border-b border-[#2a2a2a] px-6 py-3 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-[#ff4d00] rounded flex items-center justify-center font-bold text-white italic shadow-lg shadow-[#ff4d00]/20">M</div>
+            <span class="font-black text-xl tracking-tighter text-white">METASTOCK <span class="text-[#ff4d00]">SEO</span></span>
         </div>
+        <button class="bg-[#ff4d00] hover:bg-[#e64500] text-white px-4 py-1.5 rounded-lg flex items-center gap-2 text-sm font-bold transition-all">
+            <i data-lucide="play-circle" class="w-4 h-4"></i> Tutorial
+        </button>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar: Controls -->
+        <aside class="w-[320px] bg-[#1a1a1a] border-r border-[#2a2a2a] p-6 overflow-y-auto custom-scrollbar shrink-0">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-lg font-bold text-white">Generation Controls</h2>
+                <button id="open-api-btn" class="bg-[#2a2a2a] hover:bg-[#3a3a3a] text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 text-slate-300 border border-[#3a3a3a] transition-all">
+                    <i data-lucide="settings" class="w-3 h-3"></i> API Key
+                </button>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Batch Size -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium text-slate-300">Batch Size</span>
+                        <span id="batch-val" class="bg-[#2a2a2a] px-2 py-0.5 rounded text-xs font-bold text-white border border-[#3a3a3a]">1x</span>
+                    </div>
+                    <input type="range" id="batch-size" min="1" max="10" value="1" class="w-full accent-[#ff4d00] h-1.5 bg-[#2a2a2a] rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <!-- RPM -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium text-slate-300">RPM Limit</span>
+                        <div class="flex items-center gap-3">
+                            <button id="rpm-toggle" class="w-10 h-5 rounded-full bg-[#2a2a2a] relative transition-colors">
+                                <div class="dot absolute top-1 left-1 w-3 h-3 rounded-full bg-white transition-all"></div>
+                            </button>
+                            <span id="rpm-val" class="text-xs font-bold text-white">15/min</span>
+                        </div>
+                    </div>
+                    <input type="range" id="rpm-limit" min="1" max="60" value="15" class="w-full accent-[#ff4d00] h-1.5 bg-[#2a2a2a] rounded-lg appearance-none cursor-pointer">
+                </div>
+
+                <div class="h-px bg-[#2a2a2a]"></div>
+
+                <!-- Metadata Options -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-slate-300">Auto Rename Title</span>
+                        <button id="rename-toggle" class="w-10 h-5 rounded-full bg-[#ff4d00] relative transition-colors">
+                            <div class="dot absolute top-1 left-6 w-3 h-3 rounded-full bg-white transition-all"></div>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-slate-300">Apply 5-Star Rating</span>
+                        <button id="rating-toggle" class="w-10 h-5 rounded-full bg-[#ff4d00] relative transition-colors">
+                            <div class="dot absolute top-1 left-6 w-3 h-3 rounded-full bg-white transition-all"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8 overflow-y-auto custom-scrollbar bg-[#121212]">
+            <div class="max-w-5xl mx-auto space-y-8">
+                <!-- Agency Selector -->
+                <div class="flex flex-wrap gap-2">
+                    <button class="agency-btn active" data-agency="General">General</button>
+                    <button class="agency-btn" data-agency="Adobe Stock">Adobe Stock</button>
+                    <button class="agency-btn" data-agency="Shutterstock">Shutterstock</button>
+                    <button class="agency-btn" data-agency="Freepik">Freepik</button>
+                </div>
+
+                <!-- Drop Zone -->
+                <div id="drop-zone" class="border-2 border-dashed border-[#2a2a2a] hover:border-[#ff4d00] bg-[#1a1a1a]/50 rounded-2xl p-12 text-center transition-all cursor-pointer group">
+                    <input type="file" id="file-input" multiple hidden>
+                    <div class="flex justify-center gap-6 mb-4 text-slate-600 group-hover:text-[#ff4d00] transition-colors">
+                        <i data-lucide="image" class="w-10 h-10"></i>
+                        <i data-lucide="video" class="w-10 h-10"></i>
+                        <i data-lucide="file-code" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">Drag & Drop Files</h3>
+                    <p class="text-sm text-slate-500">Supports JPG, PNG, EPS, MP4, MOV</p>
+                </div>
+
+                <!-- File Grid -->
+                <div id="file-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+
+                <!-- Bottom Actions -->
+                <div class="flex gap-4 pt-8 sticky bottom-0 bg-[#121212] py-4 border-t border-[#2a2a2a]">
+                    <button id="clear-btn" class="flex-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 font-bold py-3 rounded-xl border border-red-500/20 transition-all">Clear All</button>
+                    <button id="generate-btn" class="flex-[2] bg-[#ff4d00] hover:bg-[#e64500] text-white font-bold py-3 rounded-xl shadow-lg shadow-[#ff4d00]/20 flex items-center justify-center gap-2 transition-all">
+                        <i data-lucide="zap" class="w-5 h-5"></i> Generate Metadata
+                    </button>
+                    <button id="export-btn" class="flex-1 bg-green-600/10 hover:bg-green-600/20 text-green-500 font-bold py-3 rounded-xl border border-green-600/20 transition-all">Export CSV</button>
+                </div>
+            </div>
+        </main>
     </div>
 
     <!-- API Key Modal -->
-    <div id="api-modal" class="modal hidden">
-        <div class="modal-content">
-            <h3>API Key Management</h3>
-            <div class="api-inputs">
-                <input type="password" id="gemini-key" placeholder="Enter Gemini API Key">
+    <div id="api-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden">
+        <div class="bg-[#1a1a1a] border border-[#2a2a2a] rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-[#2a2a2a] flex items-center justify-between">
+                <h3 class="text-xl font-bold text-white">API Key Management</h3>
+                <button id="close-api-btn" class="text-slate-500 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
             </div>
-            <button id="save-keys" class="btn-primary">Save Configuration</button>
+            <div class="p-8 space-y-6 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                <div class="space-y-4" id="api-slots">
+                    <!-- Slots will be generated by JS -->
+                </div>
+            </div>
+            <div class="p-6 bg-[#121212] border-t border-[#2a2a2a] flex justify-end">
+                <button id="save-api-btn" class="bg-[#ff4d00] hover:bg-[#e64500] text-white px-8 py-2.5 rounded-xl font-bold transition-all">Save Config</button>
+            </div>
         </div>
     </div>
 
     <script src="script.js"></script>
-    <script>lucide.createIcons();</script>
 </body>
 </html>
